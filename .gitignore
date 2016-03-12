@@ -1,3 +1,4 @@
 mail
 send.py
 *.pyc
+.DS_Store
