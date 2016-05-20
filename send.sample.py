@@ -4,6 +4,7 @@ import smtp
 s = smtp.smtp()
 ## dig mx google.com
 s.connect("aspmx.l.google.com", 25)
+# s.connect("aspmx.l.google.com", 25, bindIP="127.0.0.1")
 s.ehlo("test")
 s.recv()
 s.mailfrom("test@test.com")

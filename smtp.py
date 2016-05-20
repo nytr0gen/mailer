@@ -21,11 +21,15 @@ class smtp:
 
         return data
 
-    def connect(self, host = 0, port = 0):
+    def connect(self, host = 0, port = 0, bindIP = None):
         if host != 0:
             self.host = host
         if port != 0:
             self.port = port
+
+        if bindIP:
+            self.bindIP = bindIP
+            self.s.bind((self.bindIP, 0))
 
         self.s.connect((self.host, self.port))
         # self.s.setblocking(False)
