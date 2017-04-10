@@ -8,7 +8,7 @@ class smtp:
         self.port = ""
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-        self.body   = ""
+        self.body = ""
 
     def send(self, cmd):
         self.s.sendall(cmd)
@@ -21,7 +21,7 @@ class smtp:
 
         return data
 
-    def connect(self, host = 0, port = 0, bindIP = None):
+    def connect(self, host=0, port=0, bindIP=None):
         if host != 0:
             self.host = host
         if port != 0:
@@ -83,20 +83,20 @@ class smtp:
     def set_body(self, body):
         self.body = body
 
-    def set_body_from_file(self, file, vars = []):
+    def set_body_from_file(self, file, vars=[]):
         f = open(file, "r")
         self.body = ""
+        re_variables = re.compile(r"\$\{(.+?)\}")
         for line in f:
-            matches = re.search(r"\$\{(.+)\}", line)
-            if matches is not None:
-                for var in matches.groups():
-                    if var in vars:
-                        line = line.replace("${%s}" % var, vars[var])
+            matches = re_variables.findall(line)
+            for var in matches:
+                if var in vars:
+                    line = line.replace("${%s}" % var, vars[var])
             self.body += line
 
         self.body = self.body.replace("\\r", "\r").replace("\\n", "\n")
 
-        ## TODO: maybe this is not desirable
+        # TODO: maybe this is not desirable
         self.body = self.body.replace("\r\n", "\n").replace("\n", "\r\n")
 
     def send_data(self):
